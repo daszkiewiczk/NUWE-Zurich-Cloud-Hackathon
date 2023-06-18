@@ -4,12 +4,16 @@ from json import JSONDecodeError
 import os
 import logging
 
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+# logger = logging.getLogger()
+# logger.setLevel(logging.DEBUG)
+
+from aws_lambda_powertools import Logger
+from aws_lambda_powertools.utilities.typing import LambdaContext
+
+logger = Logger()
 
 
-
-def handler(event, context):
+def handler(event: dict, context: LambdaContext):
     if os.environ.get("LOCALSTACK_HOSTNAME"):
         logger.info("Using localstack.")
         localstack_endpoint = f'http://{os.getenv("LOCALSTACK_HOSTNAME")}:{os.getenv("EDGE_PORT")}'
@@ -36,11 +40,12 @@ def handler(event, context):
         }
     logger.info("Inserting data into dynamodb.")
 
-    for item in json_data:
-        clients_table.put_item(Item=item)
+    with clients_table.batch_writer() as batch:
+        for item in json_data:
+            batch.put_item(Item=item)
 
     some_binary_data = b'Here we have some data'
-    obj = s3.Object(s3_bucket, 'test.txt')
+    obj = s3.Object(s3_bucket, 'test2.txt')
     print("Inserting data into s3...")
     obj.put(Body=some_binary_data)
 

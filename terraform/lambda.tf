@@ -16,23 +16,42 @@ resource "aws_iam_role" "iam_for_lambda" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-data "archive_file" "lambda" {
-  type        = "zip"
-  source_file = "src/update_clients_table.py"
-  output_path = "lambda.zip"
+# dependencies are packaged with lambda function itself as a workaround for LocalStack not supporting Lambda layers in the community version
+resource "null_resource" "install_python_dependencies" {
+  triggers = {
+    shell_hash = "${sha256(file("${path.module}/src/requirements.txt"))}"
+  }
+  provisioner "local-exec" {
+    command = "bash ${path.module}/util/install_lambda_dependencies.sh"
+
+    environment = {
+      lambda_name = var.lambda_name
+      path_module = path.module
+      runtime = var.runtime
+    }
+  }
 }
+
+data "archive_file" "lambda" {
+  depends_on = [null_resource.install_python_dependencies]
+  type        = "zip"
+  source_dir   = "${path.module}/src"
+  output_path = "${var.lambda_name}.zip"
+}
+
 
 resource "aws_lambda_function" "update_clients_table" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
-  filename      = "lambda.zip"
-  function_name = "update-clients-table"
+  filename      = "${var.lambda_name}.zip"
+  function_name = "${var.lambda_name}"
   role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "update_clients_table.handler"
+  handler       = "${var.lambda_name}.handler"
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
 
-  runtime = "python3.10"
+  # runtime = "python3.10"
+  runtime = "python${var.runtime}"
 
   memory_size = 10240
   timeout = 900
