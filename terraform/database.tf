@@ -1,10 +1,10 @@
 resource "aws_dynamodb_table" "clients" {
-  name           = "clients"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 20
-  write_capacity = 20
-  hash_key       = "id"
-  range_key      = "surname"
+  name           = var.dynamodb_table_name
+  billing_mode   = "PAY_PER_REQUEST"
+  # read_capacity  = var.dynamodb_table_read_capacity
+  # write_capacity = var.dynamodb_table_write_capacity
+  hash_key       = var.dynamodb_table_hash_key
+  range_key      = var.dynamodb_table_range_key
 
   attribute {
     name = "id"
@@ -38,11 +38,11 @@ resource "aws_dynamodb_table" "clients" {
     Environment = "development"
   }
   
-  replica {
-    region_name = "us-east-2"
-  }
+  # replica {
+  #   region_name = "us-east-2"
+  # }
 
-  replica {
-    region_name = "us-west-2"
-  }
+  # replica {
+  #   region_name = "us-west-2"
+  # }
 }
