@@ -13,7 +13,7 @@ resource "aws_dynamodb_table" "clients" {
 
 
   attribute {
-    name = "surname"
+    name = "plate"
     type = "S"
   }
 
