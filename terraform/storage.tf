@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "clients" {
-  bucket = var.bucket_name
+  bucket_prefix = var.bucket_name
 
 #   server_side_encryption_configuration {
 #     rule {
