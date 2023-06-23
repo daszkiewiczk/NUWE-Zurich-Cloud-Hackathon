@@ -7,13 +7,13 @@ resource "aws_dynamodb_table" "clients" {
   range_key      = var.dynamodb_table_range_key
 
   attribute {
-    name = "id"
+    name = var.dynamodb_table_hash_key
     type = "S"
   }
 
 
   attribute {
-    name = "plate"
+    name = var.dynamodb_table_range_key
     type = "S"
   }
 
