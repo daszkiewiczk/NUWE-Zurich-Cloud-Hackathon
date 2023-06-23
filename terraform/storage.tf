@@ -10,12 +10,14 @@ resource "aws_s3_bucket" "clients" {
 #     }
 #   }
 
-#   versioning {
-#     enabled = true
-#   }
-
 }
 
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.clients.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 
 # resource "aws_kms_key" "incoming" {
 #   description             = "Encryption Key for the S3 Bucket"
