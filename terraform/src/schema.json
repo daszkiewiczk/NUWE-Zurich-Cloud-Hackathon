@@ -1,0 +1,64 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "string"
+            },
+            "name": {
+                "type": "string"
+            },
+            "surname": {
+                "type": "string"
+            },
+            "birthdate": {
+                "type": "string"
+            },
+            "address": {
+                "type": "string"
+            },
+            "car": {
+                "type": "object",
+                "properties": {
+                    "make": {
+                        "type": "string"
+                    },
+                    "model": {
+                        "type": "stringss"
+                    },
+                    "year": {
+                        "type": "integer"
+                    },
+                    "color": {
+                        "type": "string"
+                    },
+                    "plate": {
+                        "type": "string"
+                    },
+                    "mileage": {
+                        "type": "integer"
+                    },
+                    "fuelType": {
+                        "type": "string"
+                    },
+                    "transmission": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "plate"
+                ],
+                "additionalProperties": false
+            },
+            "fee": {
+                "type": "integer"
+            }
+        },
+        "required": [
+            "id"
+        ],
+        "additionalProperties": false
+    }
+}
