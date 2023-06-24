@@ -4,11 +4,13 @@ from json import JSONDecodeError
 import os
 from jsonschema import Draft202012Validator
 from jsonschema import SchemaError
+from jsonschema import ValidationError
 
 from aws_lambda_powertools import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
 logger = Logger()
+logger.setLevel("INFO")
 
 if os.environ.get("LOCALSTACK_HOSTNAME"):
     logger.info("Using localstack.")
@@ -42,6 +44,7 @@ def handler(event: dict, context: LambdaContext):
     }
 
 def load_clients_data(s3_bucket, s3_key):
+    logger.info("Loading clients data.")
     try:
         obj = s3.Object(s3_bucket, s3_key)
         file_content = obj.get()['Body'].read().decode('utf-8')
@@ -61,6 +64,8 @@ def validate_clients_data(clients_data: dict):
     try:
         clients_schema = json.loads(open("schema.json", "r").read())
         Draft202012Validator.check_schema(clients_schema)
+        validator = Draft202012Validator(clients_schema)
+        errors = validator.validate(clients_data)
     except JSONDecodeError as e:
         logger.error(f"schema.json file is corrupted: {e}")
         return handle_error(e)
@@ -70,12 +75,17 @@ def validate_clients_data(clients_data: dict):
     except FileNotFoundError as e:
         logger.error(f"schema.json file not found: {e}")
         return handle_error(e)
+    except ValidationError as e:
+        logger.error(f"json file does not comply with schema: {e}")
+        return handle_error(e)
     except Exception as e:
         logger.error(f"Unhandled error: {e}")
         return handle_error(e)
     else:
         return clients_data
     
+
+
 def preprocess_clients_data(clients_data: dict):
     """
     This function is used to add the plate attribute to items in clients_data.
