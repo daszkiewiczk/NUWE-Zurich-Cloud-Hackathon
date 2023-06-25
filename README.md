@@ -2,7 +2,7 @@
 This repository is my entry in online phase of the NUWE x Zurich Cloud Challenge.
 
 # How to run and test the solution
-Install required dependencies (the auto-install.sh scripts has been extended to install awslocal and tflocal):
+Install required dependencies (the auto-install.sh script has been extended to install awslocal and tflocal):
 ```
 chmod u+x auto-install.sh
 ./auto-install.sh
