@@ -1,24 +1,24 @@
 variable "lambda_name" {
-    type = string
-    default = "update_clients_table"
+  type    = string
+  default = "update_clients_table"
 }
 
 variable "runtime" {
-    type = string
-    default = "3.10"
+  type    = string
+  default = "3.10"
 }
 
 
 
 
 variable "bucket_name" {
-    type = string
-    default = "daszkiewiczk-clients"
+  type    = string
+  default = "daszkiewiczk-clients"
 }
 
 variable "trigger_file" {
-    type = string
-    default = "client_data.json"
+  type    = string
+  default = "client_data.json"
 }
 
 
@@ -26,39 +26,30 @@ variable "trigger_file" {
 
 
 variable "dynamodb_table_name" {
-    type = string
-    default = "daszkiewiczk-clients"
+  type    = string
+  default = "daszkiewiczk-clients"
 }
 
 variable "dynamodb_table_hash_key" {
-    type = string
-    default = "id"
+  type    = string
+  default = "id"
 }
 
 variable "dynamodb_table_range_key" {
-    type = string
-    default = "plate"
+  type    = string
+  default = "plate"
 }
 
-variable "dynamodb_table_read_capacity" {
-    type = number
-    default = 1
-}
- 
-variable "dynamodb_table_write_capacity" {
-    type = number
-    default = 1
-}
-  
+
 
 
 variable "stage" {
-    type    = string
-    default = "local"
+  type    = string
+  default = "local"
 }
 
 variable "aws_region" {
-    type = string
-    default = "us-east-1"
+  type    = string
+  default = "us-east-1"
 }
  

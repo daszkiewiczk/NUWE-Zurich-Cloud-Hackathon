@@ -33,16 +33,13 @@ resource "aws_iam_role_policy" "lambda" {
       {
         Effect = "Allow"
         Action = [
-          "kms:Decrypt",
-          "kms:GenerateDataKey",
-          "s3:DeleteObject",
           "s3:ListBucket",
           "s3:HeadObject",
           "s3:GetObject",
           "s3:GetObjectVersion",
         ]
         Resource = [
-          "arn:aws:s3:::${var.bucket_name}/*",
+          "arn:aws:s3:::${aws_s3_bucket.clients.bucket}/*",
         ]
       },
       {
@@ -51,9 +48,10 @@ resource "aws_iam_role_policy" "lambda" {
         "Action" : [
           "dynamodb:BatchWriteItem"
         ],
-        "Resource" : "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.dynamodb_table_name}"
+        Resource = [
+          "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${var.dynamodb_table_name}",
+        ]
       }
-
     ]
   })
 }

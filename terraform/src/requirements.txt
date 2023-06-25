@@ -1,3 +1,2 @@
 aws_lambda_powertools
-json
 jsonschema
