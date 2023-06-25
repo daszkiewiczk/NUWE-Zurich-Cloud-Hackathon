@@ -9,7 +9,7 @@ chmod u+x auto-install.sh
 ```
 Start localstack:
 ```
-DEBUG=1 localstack start
+DEBUG=1 localstack start -d
 ```
 Apply the terraform configuration:
 ```
