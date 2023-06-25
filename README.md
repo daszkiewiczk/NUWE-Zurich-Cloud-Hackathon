@@ -51,7 +51,7 @@ Lambda function is invoked on writes to the bucket. The function performs the fo
 
 As a workaround for LocalStack Community Edition not supporting Lambda Layers the dependencies have been packaged with Lambda function itself.
 
-# Identfied table access patterns
+# Identified table access patterns
 1. Get all cars owned by a client
 2. Get cars with a specific plate
 3. Get all cars with a specific plate owned by a client
