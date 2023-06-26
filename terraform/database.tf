@@ -4,6 +4,8 @@ resource "aws_dynamodb_table" "clients" {
   hash_key     = var.dynamodb_table_hash_key
   range_key    = var.dynamodb_table_range_key
 
+  stream_enabled = true
+
   attribute {
     name = var.dynamodb_table_hash_key
     type = "S"
@@ -12,11 +14,6 @@ resource "aws_dynamodb_table" "clients" {
   attribute {
     name = var.dynamodb_table_range_key
     type = "S"
-  }
-
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
   }
 
   replica {
