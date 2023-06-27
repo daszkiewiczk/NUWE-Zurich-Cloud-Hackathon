@@ -36,9 +36,9 @@ S3 bucket has been created with versioning enabled (as manual json file updates 
 
 ### Database
 DynamoDB table has been created with a primary key of `id` and a sort key of `plate` (composite key).
-This is to allow one client id to own multiple car objects, and to allow for quick lookups of cars by plate.
+This is to allow one client id to own multiple car objects.
 
-The table has been configured as global.
+The table has been configured as global with two replicas.
 
 ### Lambda
 Lambda function is invoked on writes to the bucket. The function performs the following actions:
@@ -52,6 +52,7 @@ Lambda function is invoked on writes to the bucket. The function performs the fo
 As a workaround for LocalStack Community Edition not supporting Lambda Layers the dependencies have been packaged with Lambda function itself.
 
 # Identified table access patterns
-1. Get all cars owned by a client
-2. Get cars with a specific plate
-3. Get all cars with a specific plate owned by a client
+1. Get all cars owned by client by `id`
+2. Get car with a specific plate owned by a client by `id` and `plate`
+3. Get all cars owned by client by `name` and `surname` (nameIndex GSI)
+4. Get car with a specific `plate` (plateIndex GSI)
