@@ -86,8 +86,8 @@ else
     echo "$FILE does not exist."
 fi
 
+pip3 install -r requirements.txt
+
 # Reboot system
 echo "All tasks completed. Reboot the system."
 #sudo reboot
-
-pip3 install -r requirements.txt
