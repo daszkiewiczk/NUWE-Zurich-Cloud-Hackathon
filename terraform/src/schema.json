@@ -57,7 +57,7 @@
             }
         },
         "required": [
-            "id"
+            "id", "name", "surname"
         ],
         "additionalProperties": false
     }
